@@ -1,0 +1,40 @@
+#data:
+#  type: csv
+#  path: "P:\\Java\\DeadSimpleRequestSender\\test\\example.csv"
+
+data:
+  type: bigquery-table
+  billingProject: "deadsimplerequestsender-test"
+  table:
+    project: "bigquery-public-data"
+    dataset: "usa_names"
+    name: "usa_1910_current"
+  fields:
+    - name
+    - number
+    - state
+
+postProcessors: []
+
+executor:
+  threads: 32
+
+request:
+  url: "http://localhost:8000"
+  verb: GET
+  headers:
+    Content-Type: application/json
+  body:
+    type: inline
+#    template: >
+#      {
+#        "productId": "<productId>",
+#        "lang": "<language>",
+#        "saveMode": "<saveMode>"
+#      }
+    template: >
+      {
+        "name": "<name>",
+        "number": "<number>",
+        "state": "<state>"
+      }
