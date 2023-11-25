@@ -6,8 +6,8 @@ import static java.lang.Thread.currentThread;
 import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
@@ -20,14 +20,14 @@ class StreamingContextsHolder implements Closeable
 {
     private static final int FREE_STREAMING_CONTEXT_AWAIT_TIME = 1_000;
     private static final Logger log = LoggerFactory.getLogger(StreamingContextsHolder.class);
-    private final Queue<RowStreamingContext> streamingContexts;
+    private final Deque<RowStreamingContext> streamingContexts;
     private final AtomicInteger aliveStreams;
     private final Object streamGetMonitor;
 
     public StreamingContextsHolder(final Collection<RowStreamingContext> streamingContexts)
     {
         log.info("Streaming data from BigQuery using {} streams", streamingContexts.size());
-        this.streamingContexts = new ConcurrentLinkedQueue<>(streamingContexts);
+        this.streamingContexts = new ConcurrentLinkedDeque<>(streamingContexts);
         this.aliveStreams = new AtomicInteger(streamingContexts.size());
         this.streamGetMonitor = new Object();
     }
@@ -87,7 +87,7 @@ class StreamingContextsHolder implements Closeable
     {
         while (this.aliveStreams.get() > 0)
         {
-            final RowStreamingContext rowStreamingContext = this.streamingContexts.poll();
+            final RowStreamingContext rowStreamingContext = this.streamingContexts.pollFirst();
             if (rowStreamingContext != null)
             {
                 log.debug("Thread {} obtained stream {}", currentThread().getName(), rowStreamingContext);
@@ -112,7 +112,9 @@ class StreamingContextsHolder implements Closeable
     private void releaseStreamingContext(final RowStreamingContext rowStreamingContext)
     {
         log.debug("Thread {} releasing stream {}", currentThread().getName(), rowStreamingContext);
-        this.streamingContexts.add(rowStreamingContext);
+        // It's important to add and poll streams from the same side of the queue because
+        // otherwise, we could start reading too many streams and exhaust resources.
+        this.streamingContexts.addFirst(rowStreamingContext);
         synchronized (this.streamGetMonitor)
         {
             this.streamGetMonitor.notify();

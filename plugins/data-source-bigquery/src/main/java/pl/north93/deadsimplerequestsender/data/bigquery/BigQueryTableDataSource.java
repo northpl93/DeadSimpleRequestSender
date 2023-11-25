@@ -37,10 +37,16 @@ public class BigQueryTableDataSource implements DataSource
     {
         this.bigQueryReadClient = bigQueryReadClient;
         this.readSession = bigQueryReadClient.createReadSession(createReadSessionRequest);
+        log.info("Created BigQuery read session, will expire at {}", this.getSessionExpireTime());
 
         final Schema arrowSchema = readArrowSchemaFromBigQuery(this.readSession.getArrowSchema());
         this.dataHeader = convertArrowSchemaToDataHeader(arrowSchema);
         this.streamingContextsHolder = new StreamingContextsHolder(this.openStreamingContexts(bigQueryReadClient, this.readSession, arrowSchema));
+    }
+
+    private Instant getSessionExpireTime()
+    {
+        return Instant.ofEpochSecond(this.readSession.getExpireTime().getSeconds());
     }
 
     private Collection<RowStreamingContext> openStreamingContexts(final BigQueryReadClient bigQueryReadClient, final ReadSession readSession, final Schema arrowSchema)
@@ -68,10 +74,9 @@ public class BigQueryTableDataSource implements DataSource
     @Override
     public Map<String, Object> metadata()
     {
-        final Instant timeout = Instant.ofEpochSecond(this.readSession.getExpireTime().getSeconds());
         final long estimatedRowCount = this.readSession.getEstimatedRowCount();
         return Map.of(
-                "timeout", timeout,
+                "timeout", this.getSessionExpireTime(),
                 "estimatedRowCount", estimatedRowCount
         );
     }
