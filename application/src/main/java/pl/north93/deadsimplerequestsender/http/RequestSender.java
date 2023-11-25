@@ -3,6 +3,7 @@ package pl.north93.deadsimplerequestsender.http;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.apache.hc.client5.http.classic.HttpClient;
@@ -37,8 +38,7 @@ public class RequestSender
         renderedHeaders.forEach(basicHttpRequest::addHeader);
 
         final String body = this.bodyFactory.createBody(dataRow);
-        //System.out.println(body);
-        basicHttpRequest.setEntity(new StringEntity(body));
+        basicHttpRequest.setEntity(new StringEntity(body, StandardCharsets.UTF_8));
 
         try
         {
