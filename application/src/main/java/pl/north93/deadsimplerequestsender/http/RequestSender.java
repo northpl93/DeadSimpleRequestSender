@@ -2,7 +2,6 @@ package pl.north93.deadsimplerequestsender.http;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -17,24 +16,23 @@ import pl.north93.deadsimplerequestsender.data.DataRow;
 
 public class RequestSender
 {
-    private final URI uri;
     private final Method method;
     private final BodyFactory bodyFactory;
-    private final HeadersRenderer headersRenderer;
+    private final RequestRenderer requestRenderer;
 
     public RequestSender(final DataHeader dataHeader, final RequestConfig requestConfig)
     {
-        this.uri = createUri(requestConfig.url());
         this.method = Method.normalizedValueOf(requestConfig.verb());
         this.bodyFactory = requestConfig.body().createBodyFactory(dataHeader);
-        this.headersRenderer = new HeadersRenderer(dataHeader, requestConfig.headers());
+        this.requestRenderer = new RequestRenderer(dataHeader, requestConfig);
     }
 
     public void sendRequest(final HttpClient httpClient, final DataRow dataRow)
     {
-        final BasicClassicHttpRequest basicHttpRequest = new BasicClassicHttpRequest(this.method, this.uri);
+        final URI renderUri = this.requestRenderer.renderUri(dataRow);
+        final BasicClassicHttpRequest basicHttpRequest = new BasicClassicHttpRequest(this.method, renderUri);
 
-        final Map<String, String> renderedHeaders = this.headersRenderer.renderHeadersForRequest(dataRow);
+        final Map<String, String> renderedHeaders = this.requestRenderer.renderHeadersForRequest(dataRow);
         renderedHeaders.forEach(basicHttpRequest::addHeader);
 
         final String body = this.bodyFactory.createBody(dataRow);
@@ -45,18 +43,6 @@ public class RequestSender
             httpClient.execute(basicHttpRequest, new BasicHttpClientResponseHandler());
         }
         catch (final IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static URI createUri(final String uri)
-    {
-        try
-        {
-            return new URI(uri);
-        }
-        catch (final URISyntaxException e)
         {
             throw new RuntimeException(e);
         }
