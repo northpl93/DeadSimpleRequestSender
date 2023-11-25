@@ -23,6 +23,12 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "pl.north93.deadsimplerequestsender.Main"
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 }
