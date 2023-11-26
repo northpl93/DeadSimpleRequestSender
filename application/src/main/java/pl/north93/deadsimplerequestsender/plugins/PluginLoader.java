@@ -7,14 +7,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pl.north93.deadsimplerequestsender.plugin.DeadSimpleRequestSenderPlugin;
 
 public class PluginLoader
 {
+    private static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
     private final Collection<DeadSimpleRequestSenderPlugin> plugins = new ArrayList<>();
 
     public void loadPlugins(final File pluginsDirectory)
     {
+        log.info("Loading plugins from {}", pluginsDirectory);
         for (final File file : pluginsDirectory.listFiles())
         {
             if (! file.isFile())

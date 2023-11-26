@@ -36,6 +36,12 @@ gradle.projectsEvaluated {
                         }
                     }
 
+                    create("data-source-random.jar") {
+                        archive("data-source-random.jar") {
+                            jarContentFromRuntimeClasspath(":plugins:data-source-random")
+                        }
+                    }
+
                     create("body-factory-inline.jar") {
                         archive("body-factory-inline.jar") {
                             jarContentFromRuntimeClasspath(":plugins:body-factory-inline")
@@ -57,6 +63,7 @@ gradle.projectsEvaluated {
                         it.jvmArgs = "--add-opens=java.base/java.nio=ALL-UNNAMED"
                         it.buildArtifactBeforeRun("data-source-csv.jar")
                         it.buildArtifactBeforeRun("data-source-bigquery.jar")
+                        it.buildArtifactBeforeRun("data-source-random.jar")
                         it.buildArtifactBeforeRun("body-factory-inline.jar")
                         it.buildArtifactBeforeRun("postprocessor-constant.jar")
                     }
