@@ -26,6 +26,7 @@ dependencies {
 tasks.jar {
     manifest {
         attributes["Main-Class"] = "pl.north93.deadsimplerequestsender.Main"
+        attributes["Add-Opens"] = "java.base/java.nio"
     }
 }
 

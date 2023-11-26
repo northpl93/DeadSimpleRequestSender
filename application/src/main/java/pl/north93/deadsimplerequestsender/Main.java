@@ -24,7 +24,7 @@ public class Main
 
         final YamlJobConfigLoader yamlJobConfigLoader = injector.getInstance(YamlJobConfigLoader.class);
 
-        final JobConfig jobConfig = yamlJobConfigLoader.loadJobConfigFromFile(new File("P:\\Java\\DeadSimpleRequestSender\\application\\src\\main\\resources\\example-config.yaml"));
+        final JobConfig jobConfig = yamlJobConfigLoader.loadJobConfigFromFile(new File(args[0]));
         log.info("{}", jobConfig);
 
 

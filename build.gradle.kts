@@ -61,6 +61,7 @@ gradle.projectsEvaluated {
                         it.mainClass = "pl.north93.deadsimplerequestsender.Main"
                         it.workingDirectory = "${rootProject.projectDir}/test"
                         it.jvmArgs = "--add-opens=java.base/java.nio=ALL-UNNAMED"
+                        it.programParameters = "${rootProject.projectDir}/application/src/main/resources/example-config.yaml"
                         it.buildArtifactBeforeRun("data-source-csv.jar")
                         it.buildArtifactBeforeRun("data-source-bigquery.jar")
                         it.buildArtifactBeforeRun("data-source-random.jar")
