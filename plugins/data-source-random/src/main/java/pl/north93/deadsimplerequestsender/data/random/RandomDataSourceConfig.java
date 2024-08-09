@@ -2,7 +2,6 @@ package pl.north93.deadsimplerequestsender.data.random;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -25,7 +24,7 @@ public record RandomDataSourceConfig(
                     @Override
                     public Object generate()
                     {
-                        return UUID.randomUUID().toString().replace("-", "");
+                        return Long.toHexString(ThreadLocalRandom.current().nextLong());
                     }
                 },
         INTEGER
