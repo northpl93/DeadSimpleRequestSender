@@ -36,6 +36,12 @@ gradle.projectsEvaluated {
                         }
                     }
 
+                    create("data-source-buffer.jar") {
+                        archive("data-source-buffer.jar") {
+                            jarContentFromRuntimeClasspath(":plugins:data-source-buffer")
+                        }
+                    }
+
                     create("data-source-random.jar") {
                         archive("data-source-random.jar") {
                             jarContentFromRuntimeClasspath(":plugins:data-source-random")
@@ -64,6 +70,7 @@ gradle.projectsEvaluated {
                         it.programParameters = "${rootProject.projectDir}/application/src/main/resources/example-config.yaml"
                         it.buildArtifactBeforeRun("data-source-csv.jar")
                         it.buildArtifactBeforeRun("data-source-bigquery.jar")
+                        it.buildArtifactBeforeRun("data-source-buffer.jar")
                         it.buildArtifactBeforeRun("data-source-random.jar")
                         it.buildArtifactBeforeRun("body-factory-inline.jar")
                         it.buildArtifactBeforeRun("postprocessor-constant.jar")
