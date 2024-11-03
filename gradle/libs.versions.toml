@@ -1,0 +1,26 @@
+[versions]
+jackson = "2.15.0"
+apache-arrow = "12.0.0"
+
+[plugins]
+axion-release = { id = "pl.allegro.tech.build.axion-release", version = "1.18.14" }
+idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.9" }
+shadow = { id = "com.gradleup.shadow", version = "8.3.5" }
+
+[libraries]
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version = "2.0.7" }
+guice = { group = "com.google.inject", name = "guice", version = "7.0.0" }
+st4 = { group = "org.antlr", name = "ST4", version = "4.3.4" }
+
+kryo = { group = "com.esotericsoftware", name = "kryo", version = "5.5.0" }
+
+commons-csv = { group = "org.apache.commons", name = "commons-csv", version = "1.10.0" }
+
+google-cloud-libraries-bom = { group = "com.google.cloud", name = "libraries-bom", version = "26.15.0" }
+google-cloud-bigquerystorage = { group = "com.google.cloud", name = "google-cloud-bigquerystorage" }
+arrow-vector = { group = "org.apache.arrow", name = "arrow-vector", version.ref = "apache-arrow" }
+arrow-memory-netty = { group = "org.apache.arrow", name = "arrow-memory-netty", version.ref = "apache-arrow" }
+
+jackson-core = { group = "com.fasterxml.jackson.core", name = "jackson-core", version.ref = "jackson" }
+jackson-databind = { group = "com.fasterxml.jackson.core", name = "jackson-databind", version.ref = "jackson" }
+jackson-dataformat-yaml = { group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version.ref = "jackson" }

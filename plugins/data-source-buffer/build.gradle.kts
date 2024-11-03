@@ -10,6 +10,5 @@ java {
 dependencies {
     shadow(project(":api"))
 
-    // https://mvnrepository.com/artifact/com.esotericsoftware/kryo
-    implementation("com.esotericsoftware:kryo:5.5.0")
+    implementation(libs.kryo)
 }
