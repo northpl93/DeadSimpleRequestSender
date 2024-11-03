@@ -10,11 +10,11 @@ java {
 dependencies {
     shadow(project(":api"))
 
-    implementation(platform("com.google.cloud:libraries-bom:26.15.0"))
-    implementation("com.google.cloud:google-cloud-bigquerystorage")
+    implementation(platform(libs.google.cloud.libraries.bom))
+    implementation(libs.google.cloud.bigquerystorage)
 
-    implementation("org.apache.arrow:arrow-vector:12.0.0")
-    implementation("org.apache.arrow:arrow-memory-netty:12.0.0")
+    implementation(libs.arrow.vector)
+    implementation(libs.arrow.memory.netty)
 }
 
 configurations {

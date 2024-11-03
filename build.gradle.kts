@@ -2,22 +2,23 @@ import org.jetbrains.gradle.ext.*
 import org.jetbrains.gradle.ext.Application
 
 plugins {
-    id("org.jetbrains.gradle.plugin.idea-ext").version("1.1.7")
-    id("com.github.johnrengelman.shadow").version("8.1.1")
+    alias(libs.plugins.axion.release)
+    alias(libs.plugins.idea.ext)
+    alias(libs.plugins.shadow)
 }
 
-rootProject.mkdir("test/plugins")
+group = "pl.north93"
+version = scmVersion.version
 
 allprojects {
-    apply(plugin = "com.github.johnrengelman.shadow")
-
-    group = "pl.north93"
-    version = "1.0-SNAPSHOT"
+    apply(plugin = "com.gradleup.shadow")
 
     repositories {
         mavenCentral()
     }
 }
+
+rootProject.mkdir("test/plugins")
 
 gradle.projectsEvaluated {
     rootProject.idea {

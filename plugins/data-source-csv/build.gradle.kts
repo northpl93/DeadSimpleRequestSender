@@ -10,6 +10,5 @@ java {
 dependencies {
     shadow(project(":api"))
 
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
-    implementation("org.apache.commons:commons-csv:1.10.0")
+    implementation(libs.commons.csv)
 }
