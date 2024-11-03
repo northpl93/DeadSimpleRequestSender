@@ -18,6 +18,11 @@ allprojects {
     }
 }
 
+tasks.wrapper {
+    version = "8.10.2"
+    distributionType = Wrapper.DistributionType.ALL
+}
+
 rootProject.mkdir("test/plugins")
 
 gradle.projectsEvaluated {
