@@ -1,9 +1,9 @@
 [versions]
-jackson = "2.18.1"
-apache-arrow = "18.0.0"
+jackson = "2.18.2"
+apache-arrow = "18.1.0"
 
 [plugins]
-axion-release = { id = "pl.allegro.tech.build.axion-release", version = "1.18.14" }
+axion-release = { id = "pl.allegro.tech.build.axion-release", version = "1.18.16" }
 idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.9" }
 shadow = { id = "com.gradleup.shadow", version = "8.3.5" }
 
