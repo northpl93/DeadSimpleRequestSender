@@ -10,6 +10,7 @@ java {
 dependencies {
     implementation(project(":api"))
 
+    implementation(libs.st4)
     implementation(libs.guava)
     implementation(libs.slf4j.simple)
     implementation(libs.commons.cli)

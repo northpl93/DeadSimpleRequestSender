@@ -7,12 +7,14 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
+import pl.north93.deadsimplerequestsender.http.RequestSenderFactory;
+
 public class JobModule extends AbstractModule
 {
     @Provides
-    public JobManagement createJobManagement()
+    public JobManagement createJobManagement(final RequestSenderFactory requestSenderFactory)
     {
-        return new JobManagement();
+        return new JobManagement(requestSenderFactory);
     }
 
     @Provides
