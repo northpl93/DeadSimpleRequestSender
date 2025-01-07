@@ -1,4 +1,5 @@
 [versions]
+slf4j = "2.0.16"
 jackson = "2.18.2"
 apache-arrow = "18.1.0"
 
@@ -8,8 +9,16 @@ idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.9" }
 shadow = { id = "com.gradleup.shadow", version = "8.3.5" }
 
 [libraries]
-slf4j-api = { group = "org.slf4j", name = "slf4j-api", version = "2.0.16" }
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4j" }
+
+guava = { group = "com.google.guava", name = "guava", version = "33.4.0-jre" }
 guice = { group = "com.google.inject", name = "guice", version = "7.0.0" }
+
+commons-cli = { group = "commons-cli", name = "commons-cli", version = "1.9.0" }
+
+apache-httpclient5 = { group = "org.apache.httpcomponents.client5", name = "httpclient5", version = "5.4.1" }
+
 st4 = { group = "org.antlr", name = "ST4", version = "4.3.4" }
 
 kryo = { group = "com.esotericsoftware", name = "kryo", version = "5.6.2" }
@@ -24,3 +33,6 @@ arrow-memory-netty = { group = "org.apache.arrow", name = "arrow-memory-netty", 
 jackson-core = { group = "com.fasterxml.jackson.core", name = "jackson-core", version.ref = "jackson" }
 jackson-databind = { group = "com.fasterxml.jackson.core", name = "jackson-databind", version.ref = "jackson" }
 jackson-dataformat-yaml = { group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version.ref = "jackson" }
+
+junit-bom = { group = "org.junit", name = "junit-bom", version = "5.11.3" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
