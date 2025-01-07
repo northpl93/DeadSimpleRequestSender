@@ -10,17 +10,13 @@ java {
 dependencies {
     implementation(project(":api"))
 
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
-    implementation("org.slf4j:slf4j-simple:2.0.16")
+    implementation(libs.guava)
+    implementation(libs.slf4j.simple)
+    implementation(libs.commons.cli)
+    implementation(libs.apache.httpclient5)
 
-    // https://mvnrepository.com/artifact/commons-cli/commons-cli
-    implementation("commons-cli:commons-cli:1.9.0")
-
-    // https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5
-    implementation("org.apache.httpcomponents.client5:httpclient5:5.4.1")
-
-    testImplementation(platform("org.junit:junit-bom:5.11.3"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
 }
 
 tasks.jar {
