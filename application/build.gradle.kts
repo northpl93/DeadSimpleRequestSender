@@ -15,6 +15,7 @@ dependencies {
     implementation(libs.slf4j.simple)
     implementation(libs.commons.cli)
     implementation(libs.apache.httpclient5)
+    implementation(libs.failsafe)
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)

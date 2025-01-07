@@ -1,5 +1,7 @@
 package pl.north93.deadsimplerequestsender.data;
 
+import com.google.common.base.MoreObjects;
+
 public record DataHeader(String[] columns)
 {
     public int length()
@@ -14,5 +16,13 @@ public record DataHeader(String[] columns)
         System.arraycopy(otherHeader.columns, 0, newColumns, this.columns.length, otherHeader.columns.length);
 
         return new DataHeader(newColumns);
+    }
+
+    @Override
+    public String toString()
+    {
+        return MoreObjects.toStringHelper(this)
+                          .add("columns", this.columns)
+                          .toString();
     }
 }

@@ -7,6 +7,7 @@ import pl.north93.deadsimplerequestsender.data.DataSource;
 import pl.north93.deadsimplerequestsender.data.PostProcessedDataSource;
 import pl.north93.deadsimplerequestsender.http.RequestSender;
 import pl.north93.deadsimplerequestsender.http.RequestSenderFactory;
+import pl.north93.deadsimplerequestsender.http.retry.RetryRequestSender;
 
 public class JobManagement
 {
@@ -20,7 +21,7 @@ public class JobManagement
     public void submitJob(final JobConfig jobConfig)
     {
         final DataSource dataSource = this.createDataSource(jobConfig);
-        final RequestSender requestSender = this.requestSenderFactory.createRequestSender(dataSource.readHeader(), jobConfig);
+        final RequestSender requestSender = new RetryRequestSender(this.requestSenderFactory.createRequestSender(dataSource.readHeader(), jobConfig));
 
         for (int i = 0; i < jobConfig.executor().threads(); i++)
         {
