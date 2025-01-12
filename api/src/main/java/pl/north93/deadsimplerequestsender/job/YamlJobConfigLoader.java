@@ -4,15 +4,17 @@ import java.io.File;
 import java.io.IOException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class YamlJobConfigLoader
+public final class YamlJobConfigLoader
 {
     private static final Logger log = LoggerFactory.getLogger(YamlJobConfigLoader.class);
     private final ObjectMapper yamlObjectMapper;
 
+    @Inject
     public YamlJobConfigLoader(final ObjectMapper yamlObjectMapper)
     {
         this.yamlObjectMapper = yamlObjectMapper;

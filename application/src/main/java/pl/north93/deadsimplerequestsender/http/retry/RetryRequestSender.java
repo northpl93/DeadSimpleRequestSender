@@ -14,7 +14,7 @@ import pl.north93.deadsimplerequestsender.data.DataRow;
 import pl.north93.deadsimplerequestsender.http.RequestSender;
 import pl.north93.deadsimplerequestsender.http.RequestSendingException;
 
-public class RetryRequestSender implements RequestSender
+public final class RetryRequestSender implements RequestSender
 {
     private static final Logger log = LoggerFactory.getLogger(RetryRequestSender.class);
     private final RequestSender wrappedRequestSender;

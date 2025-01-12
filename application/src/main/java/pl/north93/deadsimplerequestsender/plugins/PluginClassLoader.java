@@ -7,9 +7,9 @@ import java.util.ServiceLoader;
 
 import pl.north93.deadsimplerequestsender.plugin.DeadSimpleRequestSenderPlugin;
 
-public class PluginClassLoader extends URLClassLoader
+final class PluginClassLoader extends URLClassLoader
 {
-    public PluginClassLoader(final URL pluginFile)
+    PluginClassLoader(final URL pluginFile)
     {
         super(new URL[] { pluginFile });
     }

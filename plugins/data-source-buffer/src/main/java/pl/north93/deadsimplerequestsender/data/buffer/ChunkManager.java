@@ -6,8 +6,10 @@ import static pl.north93.deadsimplerequestsender.data.buffer.io.ReadingChunk.cre
 
 
 import java.io.Closeable;
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -33,10 +35,10 @@ class ChunkManager implements Closeable
     private final AtomicInteger chunksToRead;
     private final Deque<ReadingChunk> readingChunks;
 
-    public ChunkManager(final DataHeader dataHeader)
+    public ChunkManager(final DataHeader dataHeader, final File chunksDirectory)
     {
         this.dataHeader = dataHeader;
-        this.io = new KryoIo();
+        this.io = new KryoIo(chunksDirectory);
         this.chunkNumber = new AtomicInteger(0);
         this.chunksBeingWritten = new AtomicInteger(0);
         this.writingChunks = new ConcurrentLinkedDeque<>();

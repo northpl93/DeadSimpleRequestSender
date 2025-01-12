@@ -15,9 +15,11 @@ public class KryoIo implements Io
 {
     private static final Logger log = LoggerFactory.getLogger(KryoIo.class);
     private final ThreadLocal<Kryo> kryoThreadLocal = ThreadLocal.withInitial(this::createKryo);
+    private final File chunksDirectory;
 
-    public KryoIo()
+    public KryoIo(final File chunksDirectory)
     {
+        this.chunksDirectory = chunksDirectory;
     }
 
     private Kryo createKryo()
@@ -31,7 +33,7 @@ public class KryoIo implements Io
     @Override
     public WritingChunk openWritingChunk(final long chunkId)
     {
-        final File file = new File("chunks/chunk." + chunkId + ".bin");
+        final File file = new File(this.chunksDirectory, "chunk." + chunkId + ".bin");
         try
         {
             log.info("Opening new chunk file {}", file.getAbsolutePath());

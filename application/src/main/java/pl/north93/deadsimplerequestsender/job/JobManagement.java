@@ -1,43 +1,50 @@
 package pl.north93.deadsimplerequestsender.job;
 
-import java.util.List;
+import static pl.north93.deadsimplerequestsender.threading.ThreadingHelper.ensureManagementThread;
 
-import pl.north93.deadsimplerequestsender.data.DataPostProcessorConfig;
-import pl.north93.deadsimplerequestsender.data.DataSource;
-import pl.north93.deadsimplerequestsender.data.PostProcessedDataSource;
-import pl.north93.deadsimplerequestsender.http.RequestSender;
-import pl.north93.deadsimplerequestsender.http.RequestSenderFactory;
-import pl.north93.deadsimplerequestsender.http.retry.RetryRequestSender;
 
-public class JobManagement
+import javax.annotation.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import com.google.common.eventbus.Subscribe;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import pl.north93.deadsimplerequestsender.job.event.JobCompletedEvent;
+import pl.north93.deadsimplerequestsender.messaging.EventListener;
+
+final class JobManagement implements EventListener
 {
-    private final RequestSenderFactory requestSenderFactory;
+    private static final Logger log = LoggerFactory.getLogger(JobManagement.class);
+    private final Map<UUID, RunningJob> runningJobs = new HashMap<>();
 
-    public JobManagement(final RequestSenderFactory requestSenderFactory)
+    void registerJob(final RunningJob runningJob)
     {
-        this.requestSenderFactory = requestSenderFactory;
+        ensureManagementThread();
+        this.runningJobs.put(runningJob.getJobId(), runningJob);
     }
 
-    public void submitJob(final JobConfig jobConfig)
+    @Nullable
+    RunningJob getRunningJobById(final UUID jobId)
     {
-        final DataSource dataSource = this.createDataSource(jobConfig);
-        final RequestSender requestSender = new RetryRequestSender(this.requestSenderFactory.createRequestSender(dataSource.readHeader(), jobConfig));
-
-        for (int i = 0; i < jobConfig.executor().threads(); i++)
-        {
-            new WorkerThread(dataSource, requestSender).start();
-        }
+        ensureManagementThread();
+        return this.runningJobs.get(jobId);
     }
 
-    private DataSource createDataSource(final JobConfig jobConfig)
+    @Subscribe
+    private void handleJobCompletedEvent(final JobCompletedEvent jobCompletedEvent)
     {
-        final DataSource dataSource = jobConfig.data().createDataSource();
-        final List<DataPostProcessorConfig> dataPostProcessors = jobConfig.postProcessors();
-        if (dataPostProcessors.isEmpty())
+        final RunningJob runningJob = this.runningJobs.remove(jobCompletedEvent.jobId());
+        if (runningJob == null)
         {
-            return dataSource;
+            log.warn("Received JobCompletedEvent for non-existing job");
+            return;
         }
 
-        return new PostProcessedDataSource(dataSource, dataPostProcessors);
+        log.info("Job {} completed!", runningJob.getJobId());
     }
 }

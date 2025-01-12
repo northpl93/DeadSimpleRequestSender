@@ -7,14 +7,16 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
-import pl.north93.deadsimplerequestsender.http.RequestSenderFactory;
-
-public class JobModule extends AbstractModule
+public final class JobModule extends AbstractModule
 {
-    @Provides
-    public JobManagement createJobManagement(final RequestSenderFactory requestSenderFactory)
+    @Override
+    protected void configure()
     {
-        return new JobManagement(requestSenderFactory);
+        this.bind(YamlJobConfigLoader.class);
+        this.bind(JobManagement.class).asEagerSingleton();
+        this.bind(SubmitJobHandler.class).asEagerSingleton();
+        this.bind(WorkerThreadManagement.class).asEagerSingleton();
+        this.bind(ChangeWorkerThreadCountHandler.class).asEagerSingleton();
     }
 
     @Provides
@@ -24,11 +26,5 @@ public class JobModule extends AbstractModule
         customizers.forEach(customizer -> customizer.customizeObjectMapper(objectMapper));
 
         return objectMapper;
-    }
-
-    @Provides
-    public YamlJobConfigLoader createYamlJobConfigLoader(final ObjectMapper yamlObjectMapper)
-    {
-        return new YamlJobConfigLoader(yamlObjectMapper);
     }
 }

@@ -6,8 +6,8 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 
 import pl.north93.deadsimplerequestsender.data.DataHeader;
 import pl.north93.deadsimplerequestsender.http.RequestSender;
+import pl.north93.deadsimplerequestsender.http.RequestSenderConfig;
 import pl.north93.deadsimplerequestsender.http.RequestSenderFactory;
-import pl.north93.deadsimplerequestsender.job.JobConfig;
 
 final class ApacheHttpClientRequestSenderFactory implements RequestSenderFactory
 {
@@ -19,11 +19,11 @@ final class ApacheHttpClientRequestSenderFactory implements RequestSenderFactory
     }
 
     @Override
-    public RequestSender createRequestSender(final DataHeader dataHeader, final JobConfig jobConfig)
+    public RequestSender createRequestSender(final DataHeader dataHeader, final RequestSenderConfig requestSenderConfig)
     {
         final PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-        connectionManager.setDefaultMaxPerRoute(jobConfig.executor().threads() * 2);
-        connectionManager.setMaxTotal(jobConfig.executor().threads() * 2);
+        connectionManager.setDefaultMaxPerRoute(requestSenderConfig.maxConnections());
+        connectionManager.setMaxTotal(requestSenderConfig.maxConnections());
 
         final CloseableHttpClient httpClient =
                 HttpClientBuilder.create()
@@ -31,7 +31,7 @@ final class ApacheHttpClientRequestSenderFactory implements RequestSenderFactory
                                  .build();
 
 
-        final CookedRequestConfig cookedRequestConfig = this.requestConfigCooker.cookRequestConfig(jobConfig.request(), dataHeader);
+        final CookedRequestConfig cookedRequestConfig = this.requestConfigCooker.cookRequestConfig(requestSenderConfig.requestConfig(), dataHeader);
 
         return new ApacheHttpClientRequestSender(httpClient, cookedRequestConfig);
     }

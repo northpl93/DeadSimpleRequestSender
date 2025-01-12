@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class PostProcessedDataSource implements DataSource
+final class PostProcessedDataSource implements DataSource
 {
     private final DataSource dataSource;
     private final List<RegisteredDataPostProcessor> dataPostProcessors;

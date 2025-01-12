@@ -1,5 +1,6 @@
 package pl.north93.deadsimplerequestsender.data.buffer;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,10 +15,10 @@ public class BufferDataSource implements DataSource
     private final DataSource wrappedDataSource;
     private final ChunkManager chunkManager;
 
-    public BufferDataSource(final DataSource wrappedDataSource)
+    public BufferDataSource(final DataSource wrappedDataSource, final File chunksDirectory)
     {
         this.wrappedDataSource = wrappedDataSource;
-        this.chunkManager = new ChunkManager(this.wrappedDataSource.readHeader());
+        this.chunkManager = new ChunkManager(this.wrappedDataSource.readHeader(), chunksDirectory);
     }
 
     @Override

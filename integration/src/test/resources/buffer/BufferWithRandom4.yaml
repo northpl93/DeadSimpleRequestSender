@@ -1,0 +1,31 @@
+data:
+  type: buffer
+  source:
+    type: random
+    limit: 4
+    columns:
+      - name: name
+        type: STRING
+      - name: number
+        type: STRING
+      - name: state
+        type: STRING
+
+postProcessors: []
+
+executor:
+  threads: 32
+
+request:
+  url: "http://localhost:2999/test"
+  verb: GET
+  headers:
+    Content-Type: application/json
+  body:
+    type: inline
+    template: >
+      {
+        "name": "<name>",
+        "number": "<number>",
+        "state": "<state>"
+      }

@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.google.inject.Injector;
 
 import pl.north93.deadsimplerequestsender.data.DataSource;
 import pl.north93.deadsimplerequestsender.data.DataSourceConfig;
@@ -40,7 +41,7 @@ public record RandomDataSourceConfig(
     }
 
     @Override
-    public DataSource createDataSource()
+    public DataSource createDataSource(final Injector injector)
     {
         final int limit = Optional.ofNullable(this.limit).orElse(Integer.MAX_VALUE);
         return new RandomDataSource(this.columns, limit);

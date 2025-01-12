@@ -1,6 +1,6 @@
 rootProject.name = "DeadSimpleRequestSender"
 
-include("api", "application")
+include("api", "application", "integration")
 include("plugins:data-source-csv")
 include("plugins:data-source-bigquery")
 include("plugins:data-source-buffer")

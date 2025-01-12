@@ -10,6 +10,7 @@ import com.google.cloud.bigquery.storage.v1.CreateReadSessionRequest;
 import com.google.cloud.bigquery.storage.v1.DataFormat;
 import com.google.cloud.bigquery.storage.v1.ReadSession;
 import com.google.cloud.bigquery.storage.v1.ReadSession.TableReadOptions;
+import com.google.inject.Injector;
 
 import pl.north93.deadsimplerequestsender.data.DataSource;
 import pl.north93.deadsimplerequestsender.data.DataSourceConfig;
@@ -24,7 +25,7 @@ public record BigQueryTableDataSourceConfig(
 ) implements DataSourceConfig
 {
     @Override
-    public DataSource createDataSource()
+    public DataSource createDataSource(final Injector injector)
     {
         final BigQueryReadClient client;
         try

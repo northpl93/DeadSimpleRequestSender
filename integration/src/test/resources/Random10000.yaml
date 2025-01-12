@@ -1,0 +1,29 @@
+data:
+  type: random
+  limit: 10000
+  columns:
+    - name: name
+      type: STRING
+    - name: number
+      type: STRING
+    - name: state
+      type: STRING
+
+postProcessors: []
+
+executor:
+  threads: 8
+
+request:
+  url: "http://localhost:2999/test"
+  verb: GET
+  headers:
+    Content-Type: application/json
+  body:
+    type: inline
+    template: >
+      {
+        "name": "<name>",
+        "number": "<number>",
+        "state": "<state>"
+      }
