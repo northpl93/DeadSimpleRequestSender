@@ -105,6 +105,11 @@ class ChunkManager implements Closeable
     public Collection<DataRow> readData(final int batchSize)
     {
         final ReadingChunk readingChunk = this.acquireChunkForReading();
+        if (readingChunk == null)
+        {
+            return Collections.emptyList();
+        }
+
         try
         {
             return createStreamFromReadingChunk(readingChunk)
