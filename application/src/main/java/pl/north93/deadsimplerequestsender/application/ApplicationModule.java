@@ -28,7 +28,8 @@ public final class ApplicationModule extends AbstractModule
     protected void configure()
     {
         this.bind(ApplicationEnvironment.class).toInstance(this.applicationEnvironment);
-        this.bind(ApplicationLauncher.class).asEagerSingleton();
+        this.bind(LaunchApplicationHandler.class).asEagerSingleton();
+        this.bind(ShutdownStandbyApplication.class).asEagerSingleton();
         this.install(new PluginsModule(this.applicationEnvironment));
         this.install(new StModule());
         this.install(new JobModule());

@@ -17,6 +17,7 @@ public final class JobModule extends AbstractModule
         this.bind(SubmitJobHandler.class).asEagerSingleton();
         this.bind(WorkerThreadManagement.class).asEagerSingleton();
         this.bind(ChangeWorkerThreadCountHandler.class).asEagerSingleton();
+        this.bind(JobFacade.class).to(JobFacadeImpl.class);
     }
 
     @Provides

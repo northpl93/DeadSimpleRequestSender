@@ -13,6 +13,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pl.north93.deadsimplerequestsender.job.Job;
 import pl.north93.deadsimplerequestsender.job.JobConfig;
 import pl.north93.deadsimplerequestsender.job.YamlJobConfigLoader;
 import pl.north93.deadsimplerequestsender.job.command.SubmitJobCommand;
@@ -37,11 +38,11 @@ public class IntegrationTestJobHelper implements EventListener
     public UUID submitJob(final String path)
     {
         final JobConfig jobConfig = this.yamlJobConfigLoader.loadJobConfigFromFile(new File(path));
-        final CompletableFuture<UUID> dispatchJobFuture = this.messagePublisher.executeCommand(new SubmitJobCommand(jobConfig));
+        final CompletableFuture<Job> dispatchJobFuture = this.messagePublisher.executeCommand(new SubmitJobCommand(jobConfig));
 
         try
         {
-            return dispatchJobFuture.get();
+            return dispatchJobFuture.get().getJobId();
         }
         catch (final InterruptedException | ExecutionException e)
         {

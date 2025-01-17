@@ -18,7 +18,7 @@ import pl.north93.deadsimplerequestsender.job.command.SubmitJobCommand;
 import pl.north93.deadsimplerequestsender.messaging.CommandHandler;
 import pl.north93.deadsimplerequestsender.messaging.MessagePublisher;
 
-final class SubmitJobHandler implements CommandHandler<SubmitJobCommand, UUID>
+final class SubmitJobHandler implements CommandHandler<SubmitJobCommand, Job>
 {
     private static final Logger log = LoggerFactory.getLogger(SubmitJobHandler.class);
     private final RequestSenderFactory requestSenderFactory;
@@ -41,21 +41,22 @@ final class SubmitJobHandler implements CommandHandler<SubmitJobCommand, UUID>
     }
 
     @Override
-    public UUID handleCommand(final SubmitJobCommand command)
+    public Job handleCommand(final SubmitJobCommand command)
     {
         final UUID jobId = UUID.randomUUID();
         final JobConfig jobConfig = command.jobConfig();
+        log.info("Submitting new job with ID {} and the following configuration {}", jobId, command.jobConfig());
 
         final DataSource dataSource = this.dataSourceFactory.createDataSource(jobConfig.data(), jobConfig.postProcessors());
         final RequestSender requestSender = this.createRequestSender(dataSource, jobConfig);
 
-        final RunningJob runningJob = new RunningJob(jobId, dataSource, requestSender, jobConfig.executor().threads());
+        final RunningJob runningJob = new RunningJob(jobId, jobConfig, dataSource, requestSender, jobConfig.executor().threads());
         this.jobManagement.registerJob(runningJob);
 
         log.info("Created new job with ID {}", jobId);
         this.messagePublisher.executeCommand(new ChangeWorkerThreadCountCommand(jobId, runningJob.getTargetWorkerThreads()));
 
-        return jobId;
+        return runningJob;
     }
 
     private RequestSender createRequestSender(final DataSource dataSource, final JobConfig jobConfig)
