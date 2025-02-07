@@ -13,7 +13,7 @@ import pl.north93.deadsimplerequestsender.data.SynchronizedDataSource;
 public record CsvDataSourceConfig(String path) implements DataSourceConfig
 {
     @Override
-    public DataSource createDataSource(final Injector injector)
+    public DataSource createDataSource(final File localWorkDir, final Injector injector)
     {
         return new SynchronizedDataSource(new CsvDataSource(new File(this.path)));
     }

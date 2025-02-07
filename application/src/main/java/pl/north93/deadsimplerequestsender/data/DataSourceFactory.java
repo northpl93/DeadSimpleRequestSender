@@ -1,5 +1,6 @@
 package pl.north93.deadsimplerequestsender.data;
 
+import java.io.File;
 import java.util.List;
 
 import com.google.inject.Inject;
@@ -15,9 +16,9 @@ public final class DataSourceFactory
         this.injector = injector;
     }
 
-    public DataSource createDataSource(final DataSourceConfig dataSourceConfig, final List<DataPostProcessorConfig> postProcessors)
+    public DataSource createDataSource(final File localWorkDir, final DataSourceConfig dataSourceConfig, final List<DataPostProcessorConfig> postProcessors)
     {
-        final DataSource dataSource = dataSourceConfig.createDataSource(this.injector);
+        final DataSource dataSource = dataSourceConfig.createDataSource(localWorkDir, this.injector);
         if (postProcessors.isEmpty())
         {
             return dataSource;

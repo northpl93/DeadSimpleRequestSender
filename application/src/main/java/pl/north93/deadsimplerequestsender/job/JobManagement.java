@@ -5,11 +5,17 @@ import static pl.north93.deadsimplerequestsender.threading.ThreadingHelper.ensur
 
 import javax.annotation.Nullable;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
@@ -62,11 +68,27 @@ final class JobManagement implements EventListener
             return;
         }
 
+        this.deleteWorkingDirectory(runningJob.getWorkDir());
         if (this.runningJobs.isEmpty())
         {
             this.messagePublisher.publishEvent(new ApplicationStandbyEvent());
         }
 
         log.info("Job {} completed!", runningJob.getJobId());
+    }
+
+    private void deleteWorkingDirectory(final File workDir)
+    {
+        log.info("Removing job working directory {}", workDir);
+        try (final Stream<Path> pathStream = Files.walk(workDir.toPath()))
+        {
+            pathStream.sorted(Comparator.reverseOrder())
+                      .map(Path::toFile)
+                      .forEach(File::delete);
+        }
+        catch (final IOException e)
+        {
+            log.warn("Failed to remove job working directory {}", workDir, e);
+        }
     }
 }

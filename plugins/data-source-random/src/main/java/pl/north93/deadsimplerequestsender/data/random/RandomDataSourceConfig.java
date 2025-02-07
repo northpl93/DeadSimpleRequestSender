@@ -1,5 +1,6 @@
 package pl.north93.deadsimplerequestsender.data.random;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -41,7 +42,7 @@ public record RandomDataSourceConfig(
     }
 
     @Override
-    public DataSource createDataSource(final Injector injector)
+    public DataSource createDataSource(final File localWorkDir, final Injector injector)
     {
         final int limit = Optional.ofNullable(this.limit).orElse(Integer.MAX_VALUE);
         return new RandomDataSource(this.columns, limit);

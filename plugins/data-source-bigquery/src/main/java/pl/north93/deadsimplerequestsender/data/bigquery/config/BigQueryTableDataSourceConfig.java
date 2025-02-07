@@ -1,5 +1,6 @@
 package pl.north93.deadsimplerequestsender.data.bigquery.config;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
@@ -25,7 +26,7 @@ public record BigQueryTableDataSourceConfig(
 ) implements DataSourceConfig
 {
     @Override
-    public DataSource createDataSource(final Injector injector)
+    public DataSource createDataSource(final File localWorkDir, final Injector injector)
     {
         final BigQueryReadClient client;
         try
