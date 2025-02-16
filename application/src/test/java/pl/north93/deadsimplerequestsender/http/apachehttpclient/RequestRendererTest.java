@@ -3,6 +3,10 @@ package pl.north93.deadsimplerequestsender.http.apachehttpclient;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
+import static pl.north93.deadsimplerequestsender.http.HttpVerb.GET;
+import static pl.north93.deadsimplerequestsender.http.HttpVerb.POST;
+
+
 import java.net.URI;
 import java.util.Map;
 
@@ -24,7 +28,7 @@ public class RequestRendererTest
     public void shouldRenderUri()
     {
         // GIVEN
-        final RequestConfig requestConfig = new RequestConfig("http://example.com/<column1>", "GET", Map.of(), bodyFactoryConfig());
+        final RequestConfig requestConfig = new RequestConfig("http://example.com/<column1>", GET, Map.of(), bodyFactoryConfig());
 
         // WHEN
         final CookedRequestConfig cookedRequestConfig = this.requestConfigCooker().cookRequestConfig(requestConfig, exampleDataHeader());
@@ -35,10 +39,10 @@ public class RequestRendererTest
     }
 
     @Test
-    public void shouldParseHttpVerb()
+    public void shouldMapHttpVerb()
     {
         // GIVEN
-        final RequestConfig requestConfig = new RequestConfig("", "POST", Map.of(), bodyFactoryConfig());
+        final RequestConfig requestConfig = new RequestConfig("", POST, Map.of(), bodyFactoryConfig());
 
         // WHEN
         final CookedRequestConfig cookedRequestConfig = this.requestConfigCooker().cookRequestConfig(requestConfig, exampleDataHeader());
@@ -55,7 +59,7 @@ public class RequestRendererTest
                 "Content-Type", "application/json",
                 "Content-Language", "<column1>"
         );
-        final RequestConfig requestConfig = new RequestConfig("", "GET", headers, bodyFactoryConfig());
+        final RequestConfig requestConfig = new RequestConfig("", GET, headers, bodyFactoryConfig());
 
         // WHEN
         final CookedRequestConfig cookedRequestConfig = this.requestConfigCooker().cookRequestConfig(requestConfig, exampleDataHeader());
