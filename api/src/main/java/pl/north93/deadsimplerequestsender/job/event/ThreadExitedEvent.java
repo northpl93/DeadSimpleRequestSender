@@ -4,6 +4,6 @@ import java.util.UUID;
 
 import pl.north93.deadsimplerequestsender.messaging.Event;
 
-public record ThreadExitedEvent(UUID jobId, UUID threadId) implements Event
+public record ThreadExitedEvent(UUID jobId, int threadId) implements Event
 {
 }

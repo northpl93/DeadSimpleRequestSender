@@ -3,7 +3,9 @@ package pl.north93.deadsimplerequestsender.job;
 import static pl.north93.deadsimplerequestsender.threading.ThreadingHelper.ensureManagementThread;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import com.google.common.collect.Multimap;
@@ -22,7 +24,7 @@ import pl.north93.deadsimplerequestsender.messaging.MessagePublisher;
 final class WorkerThreadManagement implements EventListener
 {
     private static final Logger log = LoggerFactory.getLogger(WorkerThreadManagement.class);
-    private final Multimap<UUID, WorkerThread> workerThreads = MultimapBuilder.hashKeys().arrayListValues().build();
+    private final Multimap<UUID, WorkerThreadImpl> workerThreads = MultimapBuilder.hashKeys().arrayListValues().build();
     private final MessagePublisher messagePublisher;
     private final JobManagement jobManagement;
 
@@ -33,10 +35,16 @@ final class WorkerThreadManagement implements EventListener
         this.jobManagement = jobManagement;
     }
 
+    List<WorkerThreadImpl> getWorkerThreadsForJob(final UUID jobId)
+    {
+        ensureManagementThread();
+        return new ArrayList<>(this.workerThreads.get(jobId));
+    }
+
     void adjustWorkerThreadsForTheJob(final RunningJob runningJob)
     {
         ensureManagementThread();
-        final Collection<WorkerThread> jobWorkerThreads = this.workerThreads.get(runningJob.getJobId());
+        final Collection<WorkerThreadImpl> jobWorkerThreads = this.workerThreads.get(runningJob.getJobId());
 
         final int currentThreadCount = jobWorkerThreads.size();
         final int targetWorkerThreads = runningJob.getTargetWorkerThreads();
@@ -47,7 +55,7 @@ final class WorkerThreadManagement implements EventListener
 
             jobWorkerThreads.stream()
                             .limit(excessiveThreads)
-                            .forEach(WorkerThread::requestTermination);
+                            .forEach(WorkerThreadImpl::requestTermination);
         }
         else if (currentThreadCount < targetWorkerThreads)
         {
@@ -63,7 +71,7 @@ final class WorkerThreadManagement implements EventListener
 
     private void createNewWorkerThread(final RunningJob runningJob)
     {
-        final WorkerThread workerThread = runningJob.instantiateWorkerThread(this.messagePublisher);
+        final WorkerThreadImpl workerThread = runningJob.instantiateWorkerThread(this.messagePublisher);
         log.debug("Registering new thread {} for job {}", workerThread.getThreadId(), runningJob.getJobId());
         this.workerThreads.put(runningJob.getJobId(), workerThread);
         workerThread.start();
@@ -80,7 +88,11 @@ final class WorkerThreadManagement implements EventListener
         }
 
         this.removeThreadById(runningJob.getJobId(), threadExitedEvent.threadId());
-        if (runningJob.hasMoreDataToProcess())
+        if (runningJob.isTerminationRequested())
+        {
+            this.maybeTerminateJob(runningJob);
+        }
+        else if (runningJob.hasMoreDataToProcess())
         {
             log.info("Adjusting thread count for job {} because of thread death", runningJob.getJobId());
             this.adjustWorkerThreadsForTheJob(runningJob);
@@ -89,6 +101,19 @@ final class WorkerThreadManagement implements EventListener
         {
             this.maybeCompleteJob(runningJob);
         }
+    }
+
+    private void maybeTerminateJob(final RunningJob runningJob)
+    {
+        final int stillRunningThreads = this.workerThreads.get(runningJob.getJobId()).size();
+        if (stillRunningThreads > 0)
+        {
+            log.info("Waiting for shutdown of all worker threads before terminating the job");
+            return;
+        }
+
+        log.info("All worker threads exited, job terminated");
+        this.messagePublisher.publishEvent(new JobCompletedEvent(runningJob.getJobId()));
     }
 
     private void maybeCompleteJob(final RunningJob runningJob)
@@ -107,9 +132,9 @@ final class WorkerThreadManagement implements EventListener
         }
     }
 
-    private void removeThreadById(final UUID jobId, final UUID threadId)
+    private void removeThreadById(final UUID jobId, final int threadId)
     {
         log.debug("Unregistering thread {} from job {}", threadId, jobId);
-        this.workerThreads.get(jobId).removeIf(workerThread -> workerThread.getThreadId().equals(threadId));
+        this.workerThreads.get(jobId).removeIf(workerThread -> workerThread.getThreadId() == threadId);
     }
 }

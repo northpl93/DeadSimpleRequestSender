@@ -6,9 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pl.north93.deadsimplerequestsender.job.command.ChangeWorkerThreadCountCommand;
+import pl.north93.deadsimplerequestsender.job.command.ChangeWorkerThreadCountResult;
 import pl.north93.deadsimplerequestsender.messaging.CommandHandler;
 
-final class ChangeWorkerThreadCountHandler implements CommandHandler<ChangeWorkerThreadCountCommand, Boolean>
+final class ChangeWorkerThreadCountHandler implements CommandHandler<ChangeWorkerThreadCountCommand, ChangeWorkerThreadCountResult>
 {
     private static final Logger log = LoggerFactory.getLogger(ChangeWorkerThreadCountHandler.class);
     private final JobManagement jobManagement;
@@ -22,19 +23,25 @@ final class ChangeWorkerThreadCountHandler implements CommandHandler<ChangeWorke
     }
 
     @Override
-    public Boolean handleCommand(final ChangeWorkerThreadCountCommand command)
+    public ChangeWorkerThreadCountResult handleCommand(final ChangeWorkerThreadCountCommand command)
     {
         final RunningJob runningJob = this.jobManagement.getRunningJobById(command.jobId());
         if (runningJob == null)
         {
             log.warn("Received ChangeWorkerThreadCountCommand for non-existing job");
-            return false;
+            return ChangeWorkerThreadCountResult.NOT_FOUND;
+        }
+
+        if (runningJob.isTerminationRequested())
+        {
+            log.warn("Attempted to change worker threads count while job is being terminated");
+            return ChangeWorkerThreadCountResult.JOB_IS_TERMINATING;
         }
 
         runningJob.setTargetWorkerThreads(command.newWorkerThreads());
         log.info("Changed worker thread count for job {} to {}", runningJob.getJobId(), runningJob.getTargetWorkerThreads());
 
         this.workerThreadManagement.adjustWorkerThreadsForTheJob(runningJob);
-        return true;
+        return ChangeWorkerThreadCountResult.CHANGED;
     }
 }

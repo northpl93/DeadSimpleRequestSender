@@ -1,7 +1,6 @@
 package pl.north93.deadsimplerequestsender.job;
 
 import java.util.Collection;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,26 +12,27 @@ import pl.north93.deadsimplerequestsender.data.DataSource;
 import pl.north93.deadsimplerequestsender.http.RequestSender;
 import pl.north93.deadsimplerequestsender.http.RequestSendingException;
 
-final class WorkerThread extends Thread
+final class WorkerThreadImpl extends Thread implements WorkerThread
 {
-    private static final Logger log = LoggerFactory.getLogger(WorkerThread.class);
+    private static final Logger log = LoggerFactory.getLogger(WorkerThreadImpl.class);
     private static final AtomicInteger WORKER_THREAD_ID = new AtomicInteger(0);
-    private final UUID threadId;
+    private final int threadId;
     private final AtomicBoolean terminationRequested = new AtomicBoolean(false);
     private final ThreadStateReporter threadStateReporter;
     private final DataSource dataSource;
     private final RequestSender requestSender;
 
-    public WorkerThread(final ThreadStateReporter threadStateReporter, final DataSource dataSource, final RequestSender requestSender)
+    public WorkerThreadImpl(final ThreadStateReporter threadStateReporter, final DataSource dataSource, final RequestSender requestSender)
     {
-        super("DSRS-Worker-" + WORKER_THREAD_ID.getAndIncrement());
-        this.threadId = UUID.randomUUID();
+        this.threadId = WORKER_THREAD_ID.getAndIncrement();
+        this.setName("DSRS-Worker-" + this.threadId);
         this.threadStateReporter = threadStateReporter;
         this.dataSource = dataSource;
         this.requestSender = requestSender;
     }
 
-    public UUID getThreadId()
+    @Override
+    public int getThreadId()
     {
         return this.threadId;
     }
@@ -40,6 +40,12 @@ final class WorkerThread extends Thread
     public void requestTermination()
     {
         this.terminationRequested.set(true);
+    }
+
+    @Override
+    public boolean isTerminationRequested()
+    {
+        return this.terminationRequested.get();
     }
 
     @Override

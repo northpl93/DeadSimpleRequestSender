@@ -1,6 +1,8 @@
 package pl.north93.deadsimplerequestsender.job;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.util.Optional;
 import java.util.UUID;
 
 import pl.north93.deadsimplerequestsender.data.DataSource;
@@ -14,6 +16,7 @@ final class RunningJob implements Job
     private final JobConfig jobConfig;
     private final DataSource dataSource;
     private final RequestSender requestSender;
+    private boolean terminationRequested;
     private int targetWorkerThreads;
 
     public RunningJob(
@@ -39,9 +42,17 @@ final class RunningJob implements Job
         return this.jobId;
     }
 
-    public File getWorkDir()
+    @Override
+    public String getDisplayName()
     {
-        return this.workDir;
+        return Optional.ofNullable(this.jobConfig.displayName())
+                       .orElseGet(this.jobId::toString);
+    }
+
+    @Override
+    public Path getWorkDir()
+    {
+        return this.workDir.toPath();
     }
 
     @Override
@@ -55,10 +66,10 @@ final class RunningJob implements Job
         return this.dataSource.hasMore();
     }
 
-    WorkerThread instantiateWorkerThread(final MessagePublisher messagePublisher)
+    WorkerThreadImpl instantiateWorkerThread(final MessagePublisher messagePublisher)
     {
         final ThreadStateReporter threadStateReporter = new ThreadStateReporter(messagePublisher, this.jobId);
-        return new WorkerThread(threadStateReporter, this.dataSource, this.requestSender);
+        return new WorkerThreadImpl(threadStateReporter, this.dataSource, this.requestSender);
     }
 
     @Override
@@ -70,5 +81,17 @@ final class RunningJob implements Job
     public void setTargetWorkerThreads(final int targetWorkerThreads)
     {
         this.targetWorkerThreads = targetWorkerThreads;
+    }
+
+    @Override
+    public boolean isTerminationRequested()
+    {
+        return this.terminationRequested;
+    }
+
+    public void requestTermination()
+    {
+        this.targetWorkerThreads = 0;
+        this.terminationRequested = true;
     }
 }

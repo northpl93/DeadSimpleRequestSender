@@ -10,6 +10,7 @@ import pl.north93.deadsimplerequestsender.data.DataSourceConfig;
 import pl.north93.deadsimplerequestsender.http.RequestConfig;
 
 public record JobConfig(
+        String displayName,
         DataSourceConfig data,
         List<DataPostProcessorConfig> postProcessors,
         ExecutorConfig executor,

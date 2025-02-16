@@ -2,6 +2,7 @@ package pl.north93.deadsimplerequestsender.data.buffer;
 
 import java.io.File;
 
+import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.inject.Injector;
 
@@ -9,6 +10,7 @@ import pl.north93.deadsimplerequestsender.data.DataSource;
 import pl.north93.deadsimplerequestsender.data.DataSourceConfig;
 
 @JsonTypeName("buffer")
+@JsonClassDescription("Buffer to local disk")
 public record BufferDataSourceConfig(
         DataSourceConfig source
 ) implements DataSourceConfig

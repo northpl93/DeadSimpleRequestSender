@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.cloud.bigquery.storage.v1.BigQueryReadClient;
 import com.google.cloud.bigquery.storage.v1.CreateReadSessionRequest;
@@ -18,6 +19,7 @@ import pl.north93.deadsimplerequestsender.data.DataSourceConfig;
 import pl.north93.deadsimplerequestsender.data.bigquery.BigQueryTableDataSource;
 
 @JsonTypeName("bigquery-table")
+@JsonClassDescription("BigQuery table")
 public record BigQueryTableDataSourceConfig(
         String billingProject,
         TableConfig table,

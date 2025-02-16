@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.inject.Injector;
 
@@ -12,6 +13,7 @@ import pl.north93.deadsimplerequestsender.data.DataSource;
 import pl.north93.deadsimplerequestsender.data.DataSourceConfig;
 
 @JsonTypeName("random")
+@JsonClassDescription("Random")
 public record RandomDataSourceConfig(
     List<RandomColumn> columns,
     Integer limit

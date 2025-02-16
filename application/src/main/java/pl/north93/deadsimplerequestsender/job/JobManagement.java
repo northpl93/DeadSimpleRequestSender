@@ -55,6 +55,7 @@ final class JobManagement implements EventListener
 
     List<RunningJob> getRunningJobs()
     {
+        ensureManagementThread();
         return new ArrayList<>(this.runningJobs.values());
     }
 
@@ -77,10 +78,10 @@ final class JobManagement implements EventListener
         log.info("Job {} completed!", runningJob.getJobId());
     }
 
-    private void deleteWorkingDirectory(final File workDir)
+    private void deleteWorkingDirectory(final Path workDir)
     {
         log.info("Removing job working directory {}", workDir);
-        try (final Stream<Path> pathStream = Files.walk(workDir.toPath()))
+        try (final Stream<Path> pathStream = Files.walk(workDir))
         {
             pathStream.sorted(Comparator.reverseOrder())
                       .map(Path::toFile)

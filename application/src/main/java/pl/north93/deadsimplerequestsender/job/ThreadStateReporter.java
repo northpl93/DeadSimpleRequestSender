@@ -16,7 +16,7 @@ final class ThreadStateReporter
         this.jobId = jobId;
     }
 
-    void reportThreadExit(final WorkerThread workerThread)
+    void reportThreadExit(final WorkerThreadImpl workerThread)
     {
         this.messagePublisher.publishEvent(new ThreadExitedEvent(this.jobId, workerThread.getThreadId()));
     }

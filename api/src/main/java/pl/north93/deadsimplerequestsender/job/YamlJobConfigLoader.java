@@ -3,6 +3,7 @@ package pl.north93.deadsimplerequestsender.job;
 import java.io.File;
 import java.io.IOException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 
@@ -15,7 +16,7 @@ public final class YamlJobConfigLoader
     private final ObjectMapper yamlObjectMapper;
 
     @Inject
-    public YamlJobConfigLoader(final ObjectMapper yamlObjectMapper)
+    public YamlJobConfigLoader(final @YamlObjectMapper ObjectMapper yamlObjectMapper)
     {
         this.yamlObjectMapper = yamlObjectMapper;
     }
@@ -30,6 +31,18 @@ public final class YamlJobConfigLoader
         catch (final IOException e)
         {
             throw new RuntimeException("Failed to load job definition", e);
+        }
+    }
+
+    public String jobConfigToYaml(final JobConfig jobConfig)
+    {
+        try
+        {
+            return this.yamlObjectMapper.writeValueAsString(jobConfig);
+        }
+        catch (final JsonProcessingException e)
+        {
+            throw new RuntimeException(e);
         }
     }
 }

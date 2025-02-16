@@ -30,6 +30,12 @@ gradle.projectsEvaluated {
         project {
             settings {
                 ideArtifacts {
+                    create("rest-api.jar") {
+                        archive("rest-api.jar") {
+                            jarContentFromRuntimeClasspath(":plugins:rest-api")
+                        }
+                    }
+
                     create("data-source-csv.jar") {
                         archive("data-source-csv.jar") {
                             jarContentFromRuntimeClasspath(":plugins:data-source-csv")
@@ -74,6 +80,7 @@ gradle.projectsEvaluated {
                         it.workingDirectory = "${rootProject.projectDir}/test"
                         it.jvmArgs = "--add-opens=java.base/java.nio=ALL-UNNAMED"
                         it.programParameters = "${rootProject.projectDir}/application/src/main/resources/example-config.yaml"
+                        it.buildArtifactBeforeRun("rest-api.jar")
                         it.buildArtifactBeforeRun("data-source-csv.jar")
                         it.buildArtifactBeforeRun("data-source-bigquery.jar")
                         it.buildArtifactBeforeRun("data-source-buffer.jar")
