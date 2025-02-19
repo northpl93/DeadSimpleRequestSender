@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.IOException;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.util.Modules;
 
 import pl.north93.deadsimplerequestsender.data.DataSourceModule;
 import pl.north93.deadsimplerequestsender.environment.ApplicationEnvironment;
-import pl.north93.deadsimplerequestsender.environment.StartupMode.SingleShotMode;
+import pl.north93.deadsimplerequestsender.environment.StartupMode;
 import pl.north93.deadsimplerequestsender.http.apachehttpclient.RequestSenderModule;
 import pl.north93.deadsimplerequestsender.job.JobModule;
 import pl.north93.deadsimplerequestsender.messaging.MessagePublisherModule;
@@ -30,6 +31,8 @@ public final class ApplicationModule extends AbstractModule
         this.bind(ApplicationEnvironment.class).toInstance(this.applicationEnvironment);
         this.bind(LaunchApplicationHandler.class).asEagerSingleton();
         this.bind(ShutdownStandbyApplication.class).asEagerSingleton();
+        this.install(Modules.disableCircularProxiesModule());
+        this.install(Modules.requireExplicitBindingsModule());
         this.install(new PluginsModule(this.applicationEnvironment));
         this.install(new StModule());
         this.install(new JobModule());

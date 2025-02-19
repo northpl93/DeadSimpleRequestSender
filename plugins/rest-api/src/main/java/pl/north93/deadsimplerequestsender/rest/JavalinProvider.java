@@ -10,23 +10,27 @@ import io.javalin.plugin.bundled.CorsPluginConfig;
 import pl.north93.deadsimplerequestsender.job.JsonObjectMapper;
 import pl.north93.deadsimplerequestsender.rest.jobs.JobsResource;
 import pl.north93.deadsimplerequestsender.rest.schema.FormSchemaResource;
+import pl.north93.deadsimplerequestsender.rest.templates.TemplateResource;
 
 final class JavalinProvider implements Provider<Javalin>
 {
     private final ObjectMapper jsonObjectMapper;
     private final JobsResource jobsResource;
     private final FormSchemaResource formSchemaResource;
+    private final TemplateResource templateResource;
 
     @Inject
     JavalinProvider(
             final @JsonObjectMapper ObjectMapper jsonObjectMapper,
             final JobsResource jobsResource,
-            final FormSchemaResource formSchemaResource
+            final FormSchemaResource formSchemaResource,
+            final TemplateResource templateResource
     )
     {
         this.jsonObjectMapper = jsonObjectMapper;
         this.jobsResource = jobsResource;
         this.formSchemaResource = formSchemaResource;
+        this.templateResource = templateResource;
     }
 
     @Override
@@ -53,6 +57,7 @@ final class JavalinProvider implements Provider<Javalin>
         javalin.delete("/jobs/{id}", this.jobsResource::killJob);
 
 
+        javalin.get("/new-job/templates", this.templateResource::getTemplates);
         javalin.get("/new-job/schema", this.formSchemaResource::getSchema);
         javalin.post("/new-job/preview", this.formSchemaResource::generateYamlRepresentation);
 
