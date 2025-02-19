@@ -1,0 +1,51 @@
+{
+    "type": "VerticalLayout",
+    "elements": [
+        {
+            "type": "Control",
+            "label": "Job display name",
+            "scope": "#/properties/displayName"
+        },
+        {
+            "type": "HorizontalLayout",
+            "elements": [
+                {
+                    "type": "VerticalLayout",
+                    "elements": [
+                        {
+                            "type": "Group",
+                            "label": "Configure data source",
+                            "elements": [
+                                {
+                                    "type": "Control",
+                                    "label": "Data source",
+                                    "scope": "#/properties/data"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Control",
+                            "label": "Post processors",
+                            "scope": "#/properties/postProcessors"
+                        }
+                    ]
+                },
+                {
+                    "type": "VerticalLayout",
+                    "elements": [
+                        {
+                            "type": "Control",
+                            "label": "Executor",
+                            "scope": "#/properties/executor"
+                        },
+                        {
+                            "type": "Control",
+                            "label": "Request",
+                            "scope": "#/properties/request"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

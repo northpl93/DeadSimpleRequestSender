@@ -44,7 +44,8 @@ public final class ApplicationModule extends AbstractModule
 
     public static ApplicationModule constructApplicationModule(final String[] args)
     {
-        final ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(getWorkdir(), new SingleShotMode(args[0]));
+        //final ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(getWorkdir(), new SingleShotMode(args[0]));
+        final ApplicationEnvironment applicationEnvironment = new ApplicationEnvironment(getWorkdir(), new StartupMode.DaemonMode()); // todo
         return new ApplicationModule(applicationEnvironment);
     }
 
