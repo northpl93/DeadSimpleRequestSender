@@ -26,6 +26,12 @@ Postprocessors are plugins that transform data from data sources before passing 
 Body factory takes the final data row and transforms it into a request's body.
 * [body-factory-inline](plugins/body-factory-inline/README.md)
 
+### HTTP API & web interface
+DeadSimpleRequestSender can work in a daemon mode.
+To interact with the instance you can use REST-like API or the web interface that talks though the API.
+* [rest-api](plugins/rest-api/README.md)
+* [frontend](frontend/README.md)
+
 ## Getting started
 This application requires **Java 17**.
 

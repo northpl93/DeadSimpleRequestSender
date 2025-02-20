@@ -11,12 +11,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.multibindings.Multibinder;
 
 public final class JobModule extends AbstractModule
 {
     @Override
     protected void configure()
     {
+        Multibinder.newSetBinder(this.binder(), ObjectMapperCustomizer.class);
         this.bind(YamlJobConfigLoader.class);
         this.bind(JobManagement.class).asEagerSingleton();
         this.bind(SubmitJobHandler.class).asEagerSingleton();

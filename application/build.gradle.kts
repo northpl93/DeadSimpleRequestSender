@@ -13,7 +13,6 @@ dependencies {
     implementation(libs.st4)
     implementation(libs.guava)
     implementation(libs.slf4j.simple)
-    implementation(libs.commons.cli)
     implementation(libs.apache.httpclient5)
     implementation(libs.failsafe)
 

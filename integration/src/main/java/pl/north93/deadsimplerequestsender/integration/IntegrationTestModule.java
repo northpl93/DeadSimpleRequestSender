@@ -9,7 +9,6 @@ import pl.north93.deadsimplerequestsender.data.buffer.BufferDataSourcePlugin;
 import pl.north93.deadsimplerequestsender.data.csv.CsvDataSourcePlugin;
 import pl.north93.deadsimplerequestsender.data.random.RandomDataSourcePlugin;
 import pl.north93.deadsimplerequestsender.environment.ApplicationEnvironment;
-import pl.north93.deadsimplerequestsender.environment.StartupMode.DaemonMode;
 import pl.north93.deadsimplerequestsender.http.inline.InlineBodyFactoryPlugin;
 
 public final class IntegrationTestModule extends AbstractModule
@@ -24,7 +23,7 @@ public final class IntegrationTestModule extends AbstractModule
     @Override
     protected void configure()
     {
-        this.install(new ApplicationModule(new ApplicationEnvironment(this.workingDirectory, new DaemonMode())));
+        this.install(new ApplicationModule(new ApplicationEnvironment(this.workingDirectory, new String[] { "-daemon" })));
         this.bind(IntegrationTestJobHelper.class);
 
         this.install(new InlineBodyFactoryPlugin());

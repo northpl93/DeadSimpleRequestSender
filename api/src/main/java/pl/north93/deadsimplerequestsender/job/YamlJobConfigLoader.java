@@ -1,7 +1,6 @@
 package pl.north93.deadsimplerequestsender.job;
 
 import java.io.File;
-import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,9 +27,9 @@ public final class YamlJobConfigLoader
             log.info("Loading job definition from file {}", jobDefinition);
             return this.yamlObjectMapper.readValue(jobDefinition, JobConfig.class);
         }
-        catch (final IOException e)
+        catch (final Exception e)
         {
-            throw new RuntimeException("Failed to load job definition", e);
+            throw new JobDefinitionParsingException(e);
         }
     }
 

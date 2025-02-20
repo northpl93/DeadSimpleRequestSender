@@ -10,6 +10,7 @@ java {
 dependencies {
     api(libs.slf4j.api)
     api(libs.guice)
+    api(libs.commons.cli)
 
     api(libs.jackson.core)
     api(libs.jackson.databind)
