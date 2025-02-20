@@ -1,0 +1,15 @@
+services:
+  dsrs:
+    build: .
+    container_name: "dsrs"
+    ports:
+      - "8081:8080"
+  dsrs-frontend:
+    build:
+      context: frontend
+      args:
+        # Here specify the address where DSRS rest plugins listens to
+        VITE_DSRS_API: "http://localhost:8081"
+    container_name: "dsrs-frontend"
+    ports:
+      - "8080:80"
