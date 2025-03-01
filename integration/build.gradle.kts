@@ -11,13 +11,14 @@ dependencies {
     implementation(project(":plugins:data-source-random"))
 
     implementation(platform(libs.junit.bom))
-    implementation(libs.junit.jupiter.api)
+    implementation(libs.junit.jupiter)
 
     testImplementation(project(":api"))
     testImplementation(project(":application"))
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.wiremock)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 tasks.test {

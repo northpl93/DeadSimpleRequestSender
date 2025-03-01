@@ -42,8 +42,8 @@ jsonschema-generator = { group = "com.github.victools", name = "jsonschema-gener
 jsonschema-generator-jackson = { group = "com.github.victools", name = "jsonschema-module-jackson", version = "4.37.0" }
 
 junit-bom = { group = "org.junit", name = "junit-bom", version = "5.12.0" }
-junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 
 archunit = { group = "com.tngtech.archunit", name = "archunit-junit5", version = "1.4.0" }
 
