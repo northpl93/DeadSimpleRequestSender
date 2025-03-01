@@ -1,0 +1,13 @@
+diff --git a/node_modules/@jsonforms/vue-vuetify/lib/jsonforms-vue-vuetify.esm.js b/node_modules/@jsonforms/vue-vuetify/lib/jsonforms-vue-vuetify.esm.js
+index d4d4983..bfb5611
+--- a/node_modules/@jsonforms/vue-vuetify/lib/jsonforms-vue-vuetify.esm.js
++++ b/node_modules/@jsonforms/vue-vuetify/lib/jsonforms-vue-vuetify.esm.js
+@@ -2640,7 +2640,7 @@ const _sfc_main$2 = defineComponent({
+       }
+       return {
+         propertyName: propName,
+-        path: composePaths(control.value.path, propName),
++        path: control.value.path,
+         schema: propSchema,
+         uischema: propUiSchema
+       };
