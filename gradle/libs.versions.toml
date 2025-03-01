@@ -1,10 +1,10 @@
 [versions]
-slf4j = "2.0.16"
-jackson = "2.18.2"
+slf4j = "2.0.17"
+jackson = "2.18.3"
 apache-arrow = "18.2.0"
 
 [plugins]
-axion-release = { id = "pl.allegro.tech.build.axion-release", version = "1.18.16" }
+axion-release = { id = "pl.allegro.tech.build.axion-release", version = "1.18.17" }
 idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.10" }
 shadow = { id = "com.gradleup.shadow", version = "8.3.6" }
 
@@ -27,7 +27,7 @@ kryo = { group = "com.esotericsoftware", name = "kryo", version = "5.6.2" }
 
 commons-csv = { group = "org.apache.commons", name = "commons-csv", version = "1.13.0" }
 
-google-cloud-libraries-bom = { group = "com.google.cloud", name = "libraries-bom", version = "26.54.0" }
+google-cloud-libraries-bom = { group = "com.google.cloud", name = "libraries-bom", version = "26.55.0" }
 google-cloud-bigquerystorage = { group = "com.google.cloud", name = "google-cloud-bigquerystorage" }
 arrow-vector = { group = "org.apache.arrow", name = "arrow-vector", version.ref = "apache-arrow" }
 arrow-memory-netty = { group = "org.apache.arrow", name = "arrow-memory-netty", version.ref = "apache-arrow" }
@@ -41,7 +41,7 @@ javalin = { group = "io.javalin", name = "javalin", version = "6.4.0" }
 jsonschema-generator = { group = "com.github.victools", name = "jsonschema-generator", version = "4.37.0" }
 jsonschema-generator-jackson = { group = "com.github.victools", name = "jsonschema-module-jackson", version = "4.37.0" }
 
-junit-bom = { group = "org.junit", name = "junit-bom", version = "5.11.4" }
+junit-bom = { group = "org.junit", name = "junit-bom", version = "5.12.0" }
 junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 
