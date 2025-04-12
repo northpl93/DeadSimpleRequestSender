@@ -3,8 +3,6 @@ package pl.north93.deadsimplerequestsender.job;
 import static pl.north93.deadsimplerequestsender.threading.ThreadingHelper.ensureManagementThread;
 
 
-import javax.annotation.Nullable;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,6 +18,7 @@ import java.util.stream.Stream;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
