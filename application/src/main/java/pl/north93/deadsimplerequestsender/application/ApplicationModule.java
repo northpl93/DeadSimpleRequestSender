@@ -10,6 +10,7 @@ import com.google.inject.util.Modules;
 import org.apache.commons.cli.CommandLine;
 
 import pl.north93.deadsimplerequestsender.application.StartupModeProvider.StartupModeOptionsCustomizer;
+import pl.north93.deadsimplerequestsender.credentials.CredentialsModule;
 import pl.north93.deadsimplerequestsender.data.DataSourceModule;
 import pl.north93.deadsimplerequestsender.environment.ApplicationEnvironment;
 import pl.north93.deadsimplerequestsender.environment.OptionsCustomizer;
@@ -48,6 +49,7 @@ public final class ApplicationModule extends AbstractModule
         this.install(new RequestSenderModule());
         this.install(new ThreadingModule());
         this.install(new MessagePublisherModule());
+        this.install(new CredentialsModule());
     }
 
     public static ApplicationModule constructApplicationModule(final String[] args)
