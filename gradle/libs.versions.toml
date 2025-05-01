@@ -1,6 +1,6 @@
 [versions]
 slf4j = "2.0.17"
-jackson = "2.18.3"
+jackson = "2.19.0"
 apache-arrow = "18.2.0"
 
 [plugins]
@@ -12,12 +12,12 @@ shadow = { id = "com.gradleup.shadow", version = "8.3.6" }
 slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4j" }
 
-guava = { group = "com.google.guava", name = "guava", version = "33.4.6-jre" }
+guava = { group = "com.google.guava", name = "guava", version = "33.4.8-jre" }
 guice = { group = "com.google.inject", name = "guice", version = "7.0.0" }
 
 commons-cli = { group = "commons-cli", name = "commons-cli", version = "1.9.0" }
 
-apache-httpclient5 = { group = "org.apache.httpcomponents.client5", name = "httpclient5", version = "5.4.3" }
+apache-httpclient5 = { group = "org.apache.httpcomponents.client5", name = "httpclient5", version = "5.4.4" }
 
 failsafe = { group = "dev.failsafe", name = "failsafe", version = "3.3.2" }
 
@@ -36,15 +36,15 @@ jackson-core = { group = "com.fasterxml.jackson.core", name = "jackson-core", ve
 jackson-databind = { group = "com.fasterxml.jackson.core", name = "jackson-databind", version.ref = "jackson" }
 jackson-dataformat-yaml = { group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version.ref = "jackson" }
 
-javalin = { group = "io.javalin", name = "javalin", version = "6.5.0" }
+javalin = { group = "io.javalin", name = "javalin", version = "6.6.0" }
 
 jsonschema-generator = { group = "com.github.victools", name = "jsonschema-generator", version = "4.38.0" }
 jsonschema-generator-jackson = { group = "com.github.victools", name = "jsonschema-module-jackson", version = "4.38.0" }
 
-junit-bom = { group = "org.junit", name = "junit-bom", version = "5.12.1" }
+junit-bom = { group = "org.junit", name = "junit-bom", version = "5.12.2" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 
 archunit = { group = "com.tngtech.archunit", name = "archunit-junit5", version = "1.4.0" }
 
-wiremock = { group = "org.wiremock", name = "wiremock", version = "3.12.1" }
+wiremock = { group = "org.wiremock", name = "wiremock", version = "3.13.0" }
