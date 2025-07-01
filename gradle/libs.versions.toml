@@ -1,12 +1,12 @@
 [versions]
 slf4j = "2.0.17"
-jackson = "2.19.0"
+jackson = "2.19.1"
 apache-arrow = "18.3.0"
 
 [plugins]
 axion-release = { id = "pl.allegro.tech.build.axion-release", version = "1.18.18" }
 idea-ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.10" }
-shadow = { id = "com.gradleup.shadow", version = "8.3.6" }
+shadow = { id = "com.gradleup.shadow", version = "8.3.7" }
 
 [libraries]
 slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
@@ -27,7 +27,7 @@ kryo = { group = "com.esotericsoftware", name = "kryo", version = "5.6.2" }
 
 commons-csv = { group = "org.apache.commons", name = "commons-csv", version = "1.14.0" }
 
-google-cloud-libraries-bom = { group = "com.google.cloud", name = "libraries-bom", version = "26.61.0" }
+google-cloud-libraries-bom = { group = "com.google.cloud", name = "libraries-bom", version = "26.62.0" }
 google-cloud-bigquerystorage = { group = "com.google.cloud", name = "google-cloud-bigquerystorage" }
 arrow-vector = { group = "org.apache.arrow", name = "arrow-vector", version.ref = "apache-arrow" }
 arrow-memory-netty = { group = "org.apache.arrow", name = "arrow-memory-netty", version.ref = "apache-arrow" }
@@ -36,15 +36,15 @@ jackson-core = { group = "com.fasterxml.jackson.core", name = "jackson-core", ve
 jackson-databind = { group = "com.fasterxml.jackson.core", name = "jackson-databind", version.ref = "jackson" }
 jackson-dataformat-yaml = { group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version.ref = "jackson" }
 
-javalin = { group = "io.javalin", name = "javalin", version = "6.6.0" }
+javalin = { group = "io.javalin", name = "javalin", version = "6.7.0" }
 
 jsonschema-generator = { group = "com.github.victools", name = "jsonschema-generator", version = "4.38.0" }
 jsonschema-generator-jackson = { group = "com.github.victools", name = "jsonschema-module-jackson", version = "4.38.0" }
 
-junit-bom = { group = "org.junit", name = "junit-bom", version = "5.13.0" }
+junit-bom = { group = "org.junit", name = "junit-bom", version = "5.13.2" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 
 archunit = { group = "com.tngtech.archunit", name = "archunit-junit5", version = "1.4.1" }
 
-wiremock = { group = "org.wiremock", name = "wiremock", version = "3.13.0" }
+wiremock = { group = "org.wiremock", name = "wiremock", version = "3.13.1" }
